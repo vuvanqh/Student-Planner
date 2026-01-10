@@ -11,7 +11,7 @@ public class CreateEventRequest
 {
     //public DateTime SubmissionDate { get; set; } client does not get to choose when to the date its done automatically when we save it
     public EventDetailsInputDTO? Details { get; set; }
-    public Guid ManagerId { get; set; }
+    public string? UserEmail { get; set; }
     public EventRequest ToEventRequest()
     {
         return new EventRequest()
@@ -21,7 +21,7 @@ public class CreateEventRequest
             RequestStatus = RequestStatus.PENDING,
             SubmissionDate = DateTime.Now,
             Details = new EventDetails(Details!.Title!, Details.StartTime, Details.EndTime, Details.Location!, Details.Description),
-            ManagerId = ManagerId
+            UserEmail = UserEmail!
         };
     }
 }

@@ -11,7 +11,7 @@ public class User
 {
     [Key]
     [StringLength(40)]
-    public required string Email { get; set; }
+    public required string UserEmail { get; set; }
     [StringLength(40)]
     public required string PasswordHash { get; set; }
     [StringLength(20)]
@@ -21,4 +21,6 @@ public class User
 
     [ForeignKey("EventId")]
     public ICollection<PersonalEvent> PersonalEvents { get; set; } = new List<PersonalEvent>();
+    [ForeignKey("EventRequestId")]
+    public ICollection<EventRequest> EventRequests { get; set; } = new List<EventRequest>();
 }

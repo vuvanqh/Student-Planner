@@ -4,17 +4,17 @@ using System.Text;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Entities;
-using Microsoft.EntityFrameworkCore;
+using RepositoryContracts;
 
 namespace Services;
 
 public class UserService : IUserService
 {
     private List<User> _users = new List<User>();
-    private readonly ApplicationDbContext _studentPlannerDb;
-    public UserService(ApplicationDbContext studentPlannerDb)
+    private readonly IUserRepository _userRepository;
+    public UserService(IUserRepository userRepository)
     {
-        _studentPlannerDb = studentPlannerDb; 
+        _userRepository = userRepository; 
     }
 
     public async Task<UserResponse> CreateUser(CreateUserRequest? createUserRequest)
@@ -22,22 +22,21 @@ public class UserService : IUserService
         if (createUserRequest == null) throw new ArgumentNullException();
 
         User user = createUserRequest.ToUser();
-        _studentPlannerDb.Users.Add(user);
-        await _studentPlannerDb.SaveChangesAsync();
+        await _userRepository.AddUser(user);
 
         return user.ToUserResponse();
     }
 
     public async Task<List<UserResponse>> GetAllUsers()
     {
-        return await _studentPlannerDb.Users.Select(u => u.ToUserResponse()).ToListAsync();
+        return (await _userRepository.GetAllUsers()).Select(u => u.ToUserResponse()).ToList();
     }
 
     public async Task<UserResponse?> GetUserByEmail(string? email)
     {
         if(email==null) throw new ArgumentNullException();
 
-        User? user = await _studentPlannerDb.Users.FirstOrDefaultAsync(u => u.Email == email);
+        User? user = await _userRepository.GetUserByEmail(email);
 
         return user==null ? null : user.ToUserResponse();
     }

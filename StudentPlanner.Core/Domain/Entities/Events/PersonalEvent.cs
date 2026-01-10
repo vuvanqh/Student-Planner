@@ -8,8 +8,8 @@ namespace Entities.Events;
 public class PersonalEvent: Event
 {
     //relationships
-    [StringLength(50)]
-    public required string Email { get; set; } //UserEmail
-    public required User User { get; set; }
+    [StringLength(40)]
+    public required string UserEmail { get; set; } //UserEmail
+    public User? User { get; set; }
     
 }

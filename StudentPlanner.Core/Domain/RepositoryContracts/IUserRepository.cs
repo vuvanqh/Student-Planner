@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RepositoryContracts
+namespace RepositoryContracts;
+
+public interface IUserRepository
 {
-    internal class IUserRepository
-    {
-    }
+    public Task<User> AddUser(User user);
+    public Task<List<User>> GetAllUsers();
+    public Task<User?> GetUserByEmail(string email);
 }

@@ -12,7 +12,7 @@ public class UserFacultyAssignment
     [StringLength(40)]
     public required string FacultyId { get; set; }
 
-    public required User User { get; set; }
-    public required Faculty Faculty { get; set; }
+    public User? User { get; set; }
+    public Faculty? Faculty { get; set; }
     
 }

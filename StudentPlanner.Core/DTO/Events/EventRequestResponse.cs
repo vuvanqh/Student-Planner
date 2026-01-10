@@ -15,7 +15,7 @@ public class EventRequestResponse //
     public DateTime SubmissionDate { get; set; }
     public Guid? TargetEventId {get;set;}
     public EventDetailsOutputDTO? Details { get; set; }
-    public Guid? ManagerId { get; set; }
+    public string? ManagerEmail { get; set; }
 
     public override bool Equals(object? obj)
     {
@@ -42,7 +42,7 @@ public static class EventRequestExtention
             RequestStatus = request.RequestStatus,
             SubmissionDate = request.SubmissionDate,
             Details = EventDetailsOutputDTO.ToEventDetailsDTO(request.Details),
-            ManagerId = request.ManagerId!,
+            ManagerEmail = request.UserEmail!,
             TargetEventId = request.TargetEventId,
         };
     }

@@ -15,7 +15,7 @@ public class AcademicEvent: Event
     //relationships
     [StringLength(40)]
     public required string FacultyId { get; set; }
-    public required Faculty Faculty { get; set; }
+    public Faculty? Faculty { get; set; }
 
     //Subscribers => relationships with users i suppose
 }

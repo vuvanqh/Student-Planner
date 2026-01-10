@@ -18,5 +18,8 @@ public class EventRequest
     public required DateTime SubmissionDate { get; set; }
     public Guid? TargetEventId { get; set; } //for delete
     public EventDetails? Details { get; set; } //for create and update
-    public required Guid ManagerId { get; set; }
+
+    //relationships
+    public required string UserEmail { get; set; }
+    public User? User { get; set; }
 }

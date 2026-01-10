@@ -7,7 +7,7 @@ namespace Entities;
 public class AcademicEventSubscription
 {
     public required string FacultyId { get; set; }
-    public required string Email { get; set; }
-    public required Faculty Faculty { get; set; }
-    public required User User { get; set; }
+    public required string UserEmail { get; set; }
+    public Faculty? Faculty { get; set; }
+    public User? User { get; set; }
 }

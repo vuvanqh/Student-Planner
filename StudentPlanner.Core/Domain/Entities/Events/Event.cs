@@ -9,5 +9,5 @@ public abstract class Event
 {
     [Key]
     public required Guid EventId { get; set; }
-    public required EventDetails? Details { get; set; }
+    public required EventDetails Details { get; set; }
 }

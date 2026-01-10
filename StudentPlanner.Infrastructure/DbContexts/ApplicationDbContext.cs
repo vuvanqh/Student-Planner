@@ -49,6 +49,10 @@ public class ApplicationDbContext: DbContext
             .WithMany(p => p.AcademicEvents)
             .HasForeignKey(p => p.EventId);
 
+        modelBuilder.Entity<EventRequest>()
+            .HasOne<User>(e => e.User)
+            .WithMany(usr => usr.EventRequests);
+
 
     }
 

@@ -34,5 +34,5 @@ public interface IEventRequestService
     /// </summary>
     /// <param name="managerId">Manager id whose event requests are to be searched</param>
     /// <returns>List of all event requests submitted by the manager of the given managerId</returns>
-    Task<List<EventRequestResponse>> GetEventRequestsByManagerId(Guid? managerId);
+    Task<List<EventRequestResponse>> GetEventRequestsByManagerId(string? userEmail);
 }
