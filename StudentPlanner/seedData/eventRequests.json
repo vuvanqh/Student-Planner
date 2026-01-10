@@ -1,0 +1,30 @@
+[
+  {
+    "requestId": "55555555-5555-5555-5555-555555555555",
+    "requestType": "Create",
+    "requestStatus": "Pending",
+    "submissionDate": "2026-01-20T08:30:00",
+    "managerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "details": {
+      "title": "Guest Lecture: AI Ethics",
+      "startTime": "2026-03-01T12:00:00",
+      "endTime": "2026-03-01T13:30:00",
+      "location": "Auditorium 2",
+      "description": "Invited speaker from industry"
+    }
+  },
+  {
+    "requestId": "66666666-6666-6666-6666-666666666666",
+    "requestType": "Update",
+    "requestStatus": "Approved",
+    "submissionDate": "2026-01-18T15:45:00",
+    "managerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "details": {
+      "title": "Rescheduled Algorithms Lecture",
+      "startTime": "2026-02-12T12:00:00",
+      "endTime": "2026-02-12T13:30:00",
+      "location": "Room A1",
+      "description": "Time changed due to conflict"
+    }
+  }
+]

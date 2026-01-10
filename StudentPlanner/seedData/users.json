@@ -1,0 +1,21 @@
+[
+  {
+    "email": "alice.nowak@uni.edu",
+    "passwordHash": "HASHED_PASSWORD_1",
+    "firstName": "Alice",
+    "surname": "Nowak"
+  },
+  {
+    "email": "john.smith@uni.edu",
+    "passwordHash": "HASHED_PASSWORD_2",
+    "firstName": "John",
+    "surname": "Smith"
+  },
+  {
+    "email": "manager@uni.edu",
+    "passwordHash": "HASHED_PASSWORD_MANAGER",
+    "firstName": "Eva",
+    "surname": "Kowalska"
+  }
+]
+

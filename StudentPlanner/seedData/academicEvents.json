@@ -1,0 +1,24 @@
+[
+  {
+    "eventId": "33333333-3333-3333-3333-333333333333",
+    "facultyId": "F-MINI",
+    "details": {
+      "title": "Algorithms Lecture",
+      "startTime": "2026-02-12T10:15:00",
+      "endTime": "2026-02-12T11:45:00",
+      "location": "Room A1",
+      "description": "Graph algorithms"
+    }
+  },
+  {
+    "eventId": "44444444-4444-4444-4444-444444444444",
+    "facultyId": "F-ENG",
+    "details": {
+      "title": "Thermodynamics Lab",
+      "startTime": "2026-02-13T14:00:00",
+      "endTime": "2026-02-13T16:00:00",
+      "location": "Lab 3",
+      "description": "Heat transfer experiment"
+    }
+  }
+]

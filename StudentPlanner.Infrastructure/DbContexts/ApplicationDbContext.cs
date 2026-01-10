@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
+using Entities.Events;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+namespace Entities;
+
+public class ApplicationDbContext: DbContext
+{
+    //Must be virtual to be mocked - internally the mocking framework is trying to create an alternative implementation for a particular property or method that we're trying to mock
+    public virtual DbSet<PersonalEvent> PersonalEvents { get; set; }
+    public virtual DbSet<AcademicEvent> AcademicEvents { get; set; }
+    public virtual DbSet<Faculty> Faculties { get; set; }
+    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<UserFacultyAssignment> UserFacultyAssignments {  get; set; }
+    public virtual DbSet<EventRequest> EventRequests { get; set; }
+
+    public ApplicationDbContext(DbContextOptions options) : base(options) { }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<EventRequest>().ToTable("EventRequests");
+        modelBuilder.Entity<PersonalEvent>().ToTable("PersonalEvents");
+        modelBuilder.Entity<AcademicEvent>().ToTable("AcademicEvents");
+        modelBuilder.Entity<Faculty>().ToTable("Faculties");
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<UserFacultyAssignment>().ToTable("UserFacultyAssignments");
+
+        //Relationships
+        modelBuilder.Entity<UserFacultyAssignment>()
+        .HasKey(x => new { x.Email, x.FacultyId });
+
+        modelBuilder.Entity<UserFacultyAssignment>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.Email);
+
+        modelBuilder.Entity<UserFacultyAssignment>()
+            .HasOne(x => x.Faculty)
+            .WithMany()
+            .HasForeignKey(x => x.FacultyId);
+
+        modelBuilder.Entity<AcademicEvent>()
+            .HasOne<Faculty>(p => p.Faculty)
+            .WithMany(p => p.AcademicEvents)
+            .HasForeignKey(p => p.EventId);
+
+
+    }
+
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "email": "alice.nowak@uni.edu",
+    "facultyId": "F-MINI"
+  },
+  {
+    "email": "john.smith@uni.edu",
+    "facultyId": "F-ENG"
+  },
+  {
+    "email": "john.smith@uni.edu",
+    "facultyId": "F-MINI"
+  }
+]
+
