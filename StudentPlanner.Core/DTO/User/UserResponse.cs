@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Entities;
 using Entities.Events;
+using StudentPlanner.Core.Domain;
 
 namespace ServiceContracts.DTO;
 
@@ -37,7 +38,7 @@ public class UserResponse
 
 public static class UserExtention
 {
-    public static UserResponse ToUserResponse(this User user) 
+    public static UserResponse ToUserResponse(this ApplicationUser user) 
     {
         return new UserResponse()
         {

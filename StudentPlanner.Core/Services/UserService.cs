@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Entities;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
-using Entities;
-using RepositoryContracts;
+using StudentPlanner.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Services;
 
 public class UserService : IUserService
 {
-    private List<User> _users = new List<User>();
+    private List<ApplicationUser> _users = new List<ApplicationUser>();
     private readonly IUserRepository _userRepository;
     public UserService(IUserRepository userRepository)
     {
@@ -21,7 +22,7 @@ public class UserService : IUserService
     {
         if (createUserRequest == null) throw new ArgumentNullException();
 
-        User user = createUserRequest.ToUser();
+        ApplicationUser user = createUserRequest.ToUser() ;
         await _userRepository.AddUser(user);
 
         return user.ToUserResponse();
@@ -36,7 +37,7 @@ public class UserService : IUserService
     {
         if(email==null) throw new ArgumentNullException();
 
-        User? user = await _userRepository.GetUserByEmail(email);
+        ApplicationUser? user = await _userRepository.GetUserByEmail(email);
 
         return user==null ? null : user.ToUserResponse();
     }

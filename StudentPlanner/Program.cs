@@ -7,6 +7,8 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
+using StudentPlanner.Core.Domain;
+using StudentPlanner.UI;
 
 namespace StudentPlanner;
 
@@ -16,16 +18,8 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddControllers();
-
-        builder.Services.AddScoped<IUserService, UserService>();
-        builder.Services.AddScoped<IEventRequestService, EventRequestService>();
-
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IEventRequestRepository, EventRequestRepository>();
-
-        builder.Services.AddDbContext<ApplicationDbContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("Default")); });
-
+        builder.Services.ConfigureServices(builder.Configuration);
+    
         var app = builder.Build();
 
         using (var scope = app.Services.CreateScope())
@@ -55,7 +49,7 @@ public class Program
             if (!db.Users.Any())
             {
                 string users = System.IO.File.ReadAllText("seedData/users.json");
-                db.Users.AddRange(JsonSerializer.Deserialize<List<User>>(users)!);
+                db.Users.AddRange(JsonSerializer.Deserialize<List<ApplicationUser>>(users)!);
             }
             if (!db.UserFacultyAssignments.Any())
             {

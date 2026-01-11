@@ -19,7 +19,7 @@ public class EventRequestService : IEventRequestService
      }
     public async Task<EventRequestResponse> CreateEventRequest(CreateEventRequest? request)
     {
-        if(request==null || request.Details==null || request.UserEmail==null)
+        if(request==null || request.Details==null || request.UserId==null)
             throw new ArgumentNullException(nameof(request));
 
 

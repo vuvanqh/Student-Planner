@@ -1,7 +1,9 @@
-﻿using System;
+﻿using StudentPlanner.Core.Domain;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 using ValueObjects;
 
 
@@ -20,6 +22,11 @@ public class EventRequest
     public EventDetails? Details { get; set; } //for create and update
 
     //relationships
-    public required string UserEmail { get; set; }
-    public User? User { get; set; }
+    public required Guid UserId { get; set; }
+    public ApplicationUser? User { get; set; }
+
+    [ForeignKey("FacultyId")]
+    [StringLength(40)]
+    public required string FacultyId { get; set; }
+    public Faculty? Faculty { get; set; }
 }

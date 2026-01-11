@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
+using StudentPlanner.Core.Domain;
 
 namespace Repositories;
 
@@ -13,7 +14,7 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public async Task<User> AddUser(User user)
+    public async Task<ApplicationUser> AddUser(ApplicationUser user)
     {
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
@@ -21,14 +22,14 @@ public class UserRepository : IUserRepository
 
     }
 
-    public async Task<List<User>> GetAllUsers()
+    public async Task<List<ApplicationUser>> GetAllUsers()
     {
         return await _db.Users.ToListAsync();
     }
 
-    public async Task<User?> GetUserByEmail(string email)
+    public async Task<ApplicationUser?> GetUserByEmail(string email)
     {
-        return await _db.Users.FirstOrDefaultAsync(usr => usr.UserEmail == email);
+        return await _db.Users.FirstOrDefaultAsync(usr => usr.Email == email);
     }
 
 }

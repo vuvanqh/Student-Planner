@@ -17,7 +17,7 @@ public class Faculty
     [StringLength(10)]
     public required string DisplayName { get; set; } //e.g, MiNI
 
-    [ForeignKey("EventId")]
+    //relationships
     public ICollection<AcademicEvent> AcademicEvents { get; set; } = new List<AcademicEvent>(); //NOTE FOR FUTURE SELF: remember about .Include("Property we want to load induced from the relationship")!!!!
-
+    public ICollection<EventRequest> EventRequests { get; set; } = new List<EventRequest>();
 }

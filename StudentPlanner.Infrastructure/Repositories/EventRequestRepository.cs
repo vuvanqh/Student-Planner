@@ -35,6 +35,6 @@ public class EventRequestRepository: IEventRequestRepository
 
     public async Task<List<EventRequest>> GetEventRequestByUserEmail(string? email)
     {
-        return await _db.EventRequests.Where(e => e.UserEmail == email).ToListAsync();
+        return await _db.EventRequests.Where(e => e.User!.Email == email).ToListAsync();
     }
 }

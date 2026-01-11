@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Entities;
+using StudentPlanner.Core.Domain;
 
 namespace ServiceContracts.DTO;
 
@@ -21,7 +22,7 @@ public class CreateUserRequest
     [Required]
     public string? Surname { get; set; }
     
-    public User ToUser() => new User()
+    public ApplicationUser ToUser() => new ApplicationUser()
     {
         Email = Email!,
         PasswordHash = PasswordHash!,
