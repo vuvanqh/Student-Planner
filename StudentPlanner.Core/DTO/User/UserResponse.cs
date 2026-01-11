@@ -6,7 +6,7 @@ using Entities;
 using Entities.Events;
 using StudentPlanner.Core.Domain;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 public class UserResponse
 {

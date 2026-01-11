@@ -4,7 +4,8 @@
     "requestType": "Create",
     "requestStatus": "Pending",
     "submissionDate": "2026-01-20T08:30:00",
-    "managerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "userId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+    "facultyId": "MINI",
     "details": {
       "title": "Guest Lecture: AI Ethics",
       "startTime": "2026-03-01T12:00:00",
@@ -18,7 +19,8 @@
     "requestType": "Update",
     "requestStatus": "Approved",
     "submissionDate": "2026-01-18T15:45:00",
-    "managerId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "userId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+    "facultyId": "MINI",
     "details": {
       "title": "Rescheduled Algorithms Lecture",
       "startTime": "2026-02-12T12:00:00",

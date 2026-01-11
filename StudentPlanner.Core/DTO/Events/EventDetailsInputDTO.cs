@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using ValueObjects;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 public class EventDetailsInputDTO: IValidatableObject //we should accept invalid data and pass a response always
 {

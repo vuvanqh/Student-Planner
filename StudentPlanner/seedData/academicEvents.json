@@ -1,7 +1,7 @@
 [
   {
     "eventId": "33333333-3333-3333-3333-333333333333",
-    "facultyId": "F-MINI",
+    "facultyId": "MINI",
     "details": {
       "title": "Algorithms Lecture",
       "startTime": "2026-02-12T10:15:00",
@@ -12,7 +12,7 @@
   },
   {
     "eventId": "44444444-4444-4444-4444-444444444444",
-    "facultyId": "F-ENG",
+    "facultyId": "EITI",
     "details": {
       "title": "Thermodynamics Lab",
       "startTime": "2026-02-13T14:00:00",

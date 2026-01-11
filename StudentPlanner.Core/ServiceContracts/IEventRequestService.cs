@@ -1,6 +1,6 @@
 ﻿using Entities.Events;
 using ValueObjects;
-using ServiceContracts.DTO;
+using StudentPlanner.Core.DTO;
 
 namespace ServiceContracts;
 

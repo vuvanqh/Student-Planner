@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ValueObjects;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 public class EventDetailsOutputDTO // for now we validate the eventDetails say in a week we decide not to allow events shorter than 15 minutes => when creating request response we create eventdetails => our old data will be validated under new constraints which may lead to an exception
 {

@@ -1,0 +1,1712 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "StudentPlanner.UI",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/account/register": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Registers a new user account.",
+        "description": "This endpoint creates a new user account using the provided registration details.\r\nIf the email address is already in use, the operation fails.",
+        "requestBody": {
+          "description": "The user registration details.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "If the provided password does not meet validation rules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "If an account with the given email already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User registered successfully."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/account/login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Authenticates a user using email and password.",
+        "description": "If authentication succeeds, the user is signed in and a session is established.\r\nIf the user is already authenticated, a message indicating the current session\r\nis returned instead.",
+        "requestBody": {
+          "description": "The login credentials.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "If the credentials are invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/account/logout": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Logs out the currently authenticated user.",
+        "description": "This endpoint terminates the current authentication session.",
+        "responses": {
+          "200": {
+            "description": "Logout successful."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/account/delete-account": {
+      "delete": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Deletes the authenticated user's account.",
+        "description": "Only users with the `User` role may delete their own accounts.\r\nThe operation signs the user out before account deletion.",
+        "parameters": [
+          {
+            "name": "userEmail",
+            "in": "query",
+            "description": "The email address of the account to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "If the user does not have permission to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Account deleted successfully."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/create-manager": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Creates a new manager account.",
+        "description": "This endpoint creates a new user account and assigns the Manager role.\r\nOnly administrators are authorized to perform this operation.",
+        "requestBody": {
+          "description": "The manager account creation details.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "If the manager already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Manager account created successfully."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/delete-manager": {
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Deletes an existing manager account.",
+        "description": "Only administrators are allowed to delete manager accounts.",
+        "parameters": [
+          {
+            "name": "ManagerEmail",
+            "in": "query",
+            "description": "The email address of the manager to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "If the manager does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "If the email address is not provided."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Manager deleted successfully."
+          }
+        }
+      }
+    },
+    "/api/admindraft": {
+      "get": {
+        "tags": [
+          "AdminDraft"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationUser"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AdminDraft"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admindraft/{id}": {
+      "get": {
+        "tags": [
+          "AdminDraft"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AdminDraft"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AdminDraft"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/event-requests": {
+      "get": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Retrieves event requests based on the role of the authenticated user.",
+        "description": "Role-based behavior:\r\n- Admin: retrieves all event requests in the system.\r\n- Manager: retrieves only event requests created by the authenticated manager.",
+        "responses": {
+          "200": {
+            "description": "Returns the list of event requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventRequestResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Creates a new event request.",
+        "description": "Only managers are allowed to create event requests.\r\nThe newly created request is initially assigned a default status.",
+        "requestBody": {
+          "description": "The event request creation payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Returns the newly created event request."
+          }
+        }
+      }
+    },
+    "/api/event-requests/{eventId}": {
+      "get": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Retrieves a specific event request by its unique identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the requested event request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the event request does not exist or is not accessible."
+          }
+        }
+      }
+    },
+    "/api/event-requests/faculty": {
+      "get": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Retrieves event requests associated with a specific faculty.",
+        "description": "Intended primarily for administrative use to filter event requests\r\nbelonging to a particular faculty.",
+        "parameters": [
+          {
+            "name": "facultyId",
+            "in": "query",
+            "description": "The unique identifier of the faculty.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the filtered list of event requests.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventRequestResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/event-requests/{id}": {
+      "put": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Updates the status of an existing event request.",
+        "description": "Only administrators are allowed to update event request statuses.\r\nTypical status transitions include approval or rejection.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the event request.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The updated event request data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the updated request status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request ID does not match the payload."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the event request does not exist."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EventRequests"
+        ],
+        "summary": "Deletes an existing event request.",
+        "description": "Managers may only delete event requests they created.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the event request.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Event request deleted successfully."
+          },
+          "404": {
+            "description": "If the event request does not exist."
+          }
+        }
+      }
+    },
+    "/api/events/personalevents": {
+      "get": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Retrieves all personal events belonging to the authenticated user.",
+        "description": "This endpoint returns only the events owned by the currently logged-in user.\r\nThe user identifier is derived from the authentication context and not\r\nfrom client input.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "You don't have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the list of personal events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalEventResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/events/personalevents/{id}": {
+      "get": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Retrieves all personal events belonging to the authenticated user.",
+        "description": "This endpoint returns only the events owned by the currently logged-in user.\r\nThe user identifier is derived from the authentication context and not\r\nfrom client input.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "You don't have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the list of personal events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Updates an existing personal event.",
+        "description": "The authenticated user may only update events they own.\r\nAttempts to update events owned by other users will result in a forbidden response.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the event.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The updated event data.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEventUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalEventUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "If the event does not belong to the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns the updated event.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the event identifier does not match the payload."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the event does not exist."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Creates a new personal event for the authenticated user.",
+        "description": "The created event is automatically associated with the current user.\r\nClients do not provide user identifiers directly.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "The user identifier (derived from authentication context).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The event creation payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalEventRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalEventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "You don't have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Returns the newly created personal event."
+          }
+        }
+      }
+    },
+    "/api/events/personalevents/{userId}/{id}": {
+      "delete": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Deletes an existing personal event.",
+        "description": "The authenticated user may only delete events they own.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique identifier of the event.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "If the event does not belong to the authenticated user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Event deleted successfully."
+          },
+          "404": {
+            "description": "If the event does not exist."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AcademicEvent": {
+        "required": [
+          "details",
+          "eventId",
+          "facultyId"
+        ],
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "details": {
+            "$ref": "#/components/schemas/EventDetails"
+          },
+          "facultyId": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "faculty": {
+            "$ref": "#/components/schemas/Faculty"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AcademicEventResponse": {
+        "required": [
+          "faculty"
+        ],
+        "type": "object",
+        "properties": {
+          "faculty": {
+            "$ref": "#/components/schemas/FacultyDTO"
+          },
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsOutputDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationUser": {
+        "required": [
+          "firstName",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailConfirmed": {
+            "type": "boolean"
+          },
+          "passwordHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "concurrencyStamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumberConfirmed": {
+            "type": "boolean"
+          },
+          "twoFactorEnabled": {
+            "type": "boolean"
+          },
+          "lockoutEnd": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lockoutEnabled": {
+            "type": "boolean"
+          },
+          "accessFailedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "surname": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "personalEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalEvent"
+            },
+            "nullable": true
+          },
+          "eventRequests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateEventRequest": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsInputDTO"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "facultyId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatePersonalEventRequest": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsInputDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateUserRequest": {
+        "required": [
+          "confirmPassword",
+          "email",
+          "firstName",
+          "password",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "confirmPassword": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventDetails": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "location": {
+            "maxLength": 70,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventDetailsInputDTO": {
+        "required": [
+          "endTime",
+          "eventId",
+          "location",
+          "startTime",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "location": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventDetailsOutputDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventRequest": {
+        "required": [
+          "facultyId",
+          "requestId",
+          "requestStatus",
+          "requestType",
+          "submissionDate",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestType": {
+            "$ref": "#/components/schemas/RequestType"
+          },
+          "requestStatus": {
+            "$ref": "#/components/schemas/RequestStatus"
+          },
+          "submissionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "targetEventId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "details": {
+            "$ref": "#/components/schemas/EventDetails"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user": {
+            "$ref": "#/components/schemas/ApplicationUser"
+          },
+          "facultyId": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "faculty": {
+            "$ref": "#/components/schemas/Faculty"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventRequestResponse": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestType": {
+            "$ref": "#/components/schemas/RequestType"
+          },
+          "requestStatus": {
+            "$ref": "#/components/schemas/RequestStatus"
+          },
+          "submissionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "targetEventId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsOutputDTO"
+          },
+          "managerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Faculty": {
+        "required": [
+          "displayName",
+          "facultyId",
+          "facultyName"
+        ],
+        "type": "object",
+        "properties": {
+          "facultyId": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "facultyName": {
+            "maxLength": 150,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "academicEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcademicEvent"
+            },
+            "nullable": true
+          },
+          "eventRequests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FacultyDTO": {
+        "required": [
+          "displayName",
+          "facultyId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "facultyId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "displayName": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDTO": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonalEvent": {
+        "required": [
+          "details",
+          "eventId",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "details": {
+            "$ref": "#/components/schemas/EventDetails"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "user": {
+            "$ref": "#/components/schemas/ApplicationUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonalEventResponse": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsOutputDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PersonalEventUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "$ref": "#/components/schemas/EventDetailsInputDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "RequestStatus": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "RequestType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "UpdateEventRequest": {
+        "required": [
+          "requestId",
+          "requestStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestStatus": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserResponse": {
+        "required": [
+          "email",
+          "firstName",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "faculties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacultyDTO"
+            },
+            "nullable": true
+          },
+          "academicEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcademicEventResponse"
+            },
+            "nullable": true
+          },
+          "personalEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalEventResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Account"
+    },
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "AdminDraft"
+    },
+    {
+      "name": "EventRequests"
+    },
+    {
+      "name": "PersonalEvents"
+    }
+  ]
+}

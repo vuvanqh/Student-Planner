@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 public class AcademicEventResponse
 {

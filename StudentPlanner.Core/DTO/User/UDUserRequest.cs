@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 /// <summary>
 /// For Update and deletion
 /// </summary>

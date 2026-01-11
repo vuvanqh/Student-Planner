@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using ValueObjects;
 using Entities.Events;
+using Enums;
 
-namespace ServiceContracts.DTO;
+
+
+namespace StudentPlanner.Core.DTO;
 
 public class EventRequestResponse //
 {

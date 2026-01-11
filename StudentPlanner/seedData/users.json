@@ -1,21 +1,24 @@
 [
   {
+    "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
     "email": "alice.nowak@uni.edu",
-    "passwordHash": "HASHED_PASSWORD_1",
     "firstName": "Alice",
-    "surname": "Nowak"
+    "surname": "Nowak",
+    "userName": "alice.nowak@uni.edu"
   },
   {
+    "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
     "email": "john.smith@uni.edu",
-    "passwordHash": "HASHED_PASSWORD_2",
     "firstName": "John",
-    "surname": "Smith"
+    "surname": "Smith",
+    "userName": "john.smith@uni.edu"
   },
   {
+    "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
     "email": "manager@uni.edu",
-    "passwordHash": "HASHED_PASSWORD_MANAGER",
     "firstName": "Eva",
-    "surname": "Kowalska"
+    "surname": "Kowalska",
+    "userName": "manager@uni.edu"
   }
 ]
 

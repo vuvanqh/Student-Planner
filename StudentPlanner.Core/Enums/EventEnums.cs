@@ -1,4 +1,4 @@
-﻿namespace ValueObjects;
+﻿namespace Enums;
 
 public enum FacultyType
 {

@@ -1,5 +1,5 @@
 ﻿using ServiceContracts;
-using ServiceContracts.DTO;
+using StudentPlanner.Core.DTO;
 
 using Entities.Events;
 using Entities;

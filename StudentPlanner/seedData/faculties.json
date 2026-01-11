@@ -1,67 +1,67 @@
 [
   {
     "facultyId": "MINI",
-    "name": "Faculty of Mathematics and Information Science",
+    "facultyName": "Faculty of Mathematics and Information Science",
     "displayName": "MiNI"
   },
   {
     "facultyId": "EI",
-    "name": "Faculty of Electrical Engineering",
+    "facultyName": "Faculty of Electrical Engineering",
     "displayName": "EI"
   },
   {
     "facultyId": "MEIL",
-    "name": "Faculty of Power and Aeronautical Engineering",
+    "facultyName": "Faculty of Power and Aeronautical Engineering",
     "displayName": "MEiL"
   },
   {
     "facultyId": "MCH",
-    "name": "Faculty of Chemistry",
+    "facultyName": "Faculty of Chemistry",
     "displayName": "Chem"
   },
   {
     "facultyId": "FIZ",
-    "name": "Faculty of Physics",
+    "facultyName": "Faculty of Physics",
     "displayName": "Phys"
   },
   {
     "facultyId": "WIP",
-    "name": "Faculty of Production Engineering",
+    "facultyName": "Faculty of Production Engineering",
     "displayName": "WIP"
   },
   {
     "facultyId": "GIK",
-    "name": "Faculty of Geodesy and Cartography",
+    "facultyName": "Faculty of Geodesy and Cartography",
     "displayName": "GiK"
   },
   {
     "facultyId": "ARCH",
-    "name": "Faculty of Architecture",
+    "facultyName": "Faculty of Architecture",
     "displayName": "Arch"
   },
   {
     "facultyId": "IL",
-    "name": "Faculty of Transport",
+    "facultyName": "Faculty of Transport",
     "displayName": "Trans"
   },
   {
     "facultyId": "IBHI",
-    "name": "Faculty of Building Services, Hydro and Environmental Engineering",
+    "facultyName": "Faculty of Building Services, Hydro and Environmental Engineering",
     "displayName": "ISBiE"
   },
   {
     "facultyId": "MS",
-    "name": "Faculty of Materials Science and Engineering",
+    "facultyName": "Faculty of Materials Science and Engineering",
     "displayName": "MS"
   },
   {
     "facultyId": "EITI",
-    "name": "Faculty of Electronics and Information Technology",
+    "facultyName": "Faculty of Electronics and Information Technology",
     "displayName": "EITI"
   },
   {
     "facultyId": "SIL",
-    "name": "Faculty of Automotive and Construction Machinery Engineering",
+    "facultyName": "Faculty of Automotive and Construction Machinery Engineering",
     "displayName":"SiMR"
   }
 ]

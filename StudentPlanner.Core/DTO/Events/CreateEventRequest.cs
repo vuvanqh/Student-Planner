@@ -1,10 +1,11 @@
-﻿using ValueObjects;
+﻿using Enums;
+using ValueObjects;
 using Entities.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 
 public class CreateEventRequest

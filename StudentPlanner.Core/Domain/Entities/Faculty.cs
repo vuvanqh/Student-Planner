@@ -12,7 +12,7 @@ public class Faculty
     [Key]
     [StringLength(40)]
     public required string FacultyId { get; set; } //Id or code like 1120 or sum but definitely unique
-    [StringLength(50)]
+    [StringLength(150)]
     public required string FacultyName {  get; set; } //e.g., Faculty of Mathematics and Information Science\
     [StringLength(10)]
     public required string DisplayName { get; set; } //e.g, MiNI

@@ -1,8 +1,11 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Identity;
 using RepositoryContracts;
 using ServiceContracts;
-using ServiceContracts.DTO;
+using StudentPlanner.Core.DTO;
 using StudentPlanner.Core.Domain;
+using StudentPlanner.Core.Errors;
+using StudentPlanner.Core.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,18 +16,27 @@ public class UserService : IUserService
 {
     private List<ApplicationUser> _users = new List<ApplicationUser>();
     private readonly IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
     {
         _userRepository = userRepository; 
+        _userManager = userManager;
     }
 
     public async Task<UserResponse> CreateUser(CreateUserRequest? createUserRequest)
     {
         if (createUserRequest == null) throw new ArgumentNullException();
 
-        ApplicationUser user = createUserRequest.ToUser() ;
-        await _userRepository.AddUser(user);
+        ApplicationUser user = createUserRequest.ToUser();
 
+        var result = await _userManager.CreateAsync(user, createUserRequest.Password!);
+        if(!result.Succeeded)
+        { 
+            throw new IdentityOperationException(
+                result.Errors.Select(e => e.Description)
+            );
+        }
+        await _userManager.AddToRoleAsync(user, UserRoles.User);
         return user.ToUserResponse();
     }
 

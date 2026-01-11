@@ -5,7 +5,7 @@ using System.Text;
 using Entities;
 using StudentPlanner.Core.Domain;
 
-namespace ServiceContracts.DTO;
+namespace StudentPlanner.Core.DTO;
 
 public class CreateUserRequest
 {
@@ -13,10 +13,10 @@ public class CreateUserRequest
     [EmailAddress(ErrorMessage = "Email is not in a valid eamil format")]
     public string? Email { get; set; }
     [Required]
-    public string? PasswordHash { get; set; }
+    public string? Password { get; set; }
     [Required]
-    [Compare(nameof(PasswordHash),ErrorMessage ="Passwords must match")]
-    public string? ConfirmPasswordHash { get; set; }
+    [Compare(nameof(Password),ErrorMessage ="Passwords must match")]
+    public string? ConfirmPassword { get; set; }
     [Required]
     public string? FirstName { get; set; }
     [Required]
@@ -25,7 +25,6 @@ public class CreateUserRequest
     public ApplicationUser ToUser() => new ApplicationUser()
     {
         Email = Email!,
-        PasswordHash = PasswordHash!,
         FirstName = FirstName!,
         Surname = Surname!
     };

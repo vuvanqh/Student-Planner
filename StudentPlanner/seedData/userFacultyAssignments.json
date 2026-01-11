@@ -1,15 +1,15 @@
 [
   {
-    "email": "alice.nowak@uni.edu",
-    "facultyId": "F-MINI"
+    "userId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+    "facultyId": "MINI"
   },
   {
-    "email": "john.smith@uni.edu",
-    "facultyId": "F-ENG"
+    "userId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "facultyId": "EITI"
   },
   {
-    "email": "john.smith@uni.edu",
-    "facultyId": "F-MINI"
+    "userId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+    "facultyId": "MINI"
   }
 ]
 

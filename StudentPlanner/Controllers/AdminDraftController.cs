@@ -7,18 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities;
 using StudentPlanner.Core.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace StudentPlanner.UI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class AdminDraftController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public AdminController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public AdminDraftController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Admin

@@ -1,20 +1,27 @@
 
-using System.Text.Json;
 using Entities;
 using Entities.Events;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
 using StudentPlanner.Core.Domain;
+using StudentPlanner.Core.Errors;
+using StudentPlanner.Core.ValueObjects;
 using StudentPlanner.UI;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using ValueObjects;
 
 namespace StudentPlanner;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -22,53 +29,33 @@ public class Program
     
         var app = builder.Build();
 
-        using (var scope = app.Services.CreateScope())
+        app.UseExceptionHandler(appError =>
         {
-            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+           
 
-            if (!db.AcademicEvents.Any())
-            {
-                string academicEvents = System.IO.File.ReadAllText("seedData/academicEvents.json");
-                db.AcademicEvents.AddRange(JsonSerializer.Deserialize<List<AcademicEvent>>(academicEvents)!);
-            }
-            if (!db.PersonalEvents.Any())
-            {
-                string personalEvents = System.IO.File.ReadAllText("seedData/personalEvents.json");
-                db.PersonalEvents.AddRange(JsonSerializer.Deserialize<List<PersonalEvent>>(personalEvents)!);
-            }
-            if (!db.EventRequests.Any())
-            {
-                string eventRequests = System.IO.File.ReadAllText("seedData/eventRequests.json");
-                db.EventRequests.AddRange(JsonSerializer.Deserialize<List<EventRequest>>(eventRequests)!);
-            }
-            if (!db.Faculties.Any())
-            {
-                string faculties = System.IO.File.ReadAllText("seedData/faculties.json");
-                db.Faculties.AddRange(JsonSerializer.Deserialize<List<Faculty>>(faculties)!);
-            }
-            if (!db.Users.Any())
-            {
-                string users = System.IO.File.ReadAllText("seedData/users.json");
-                db.Users.AddRange(JsonSerializer.Deserialize<List<ApplicationUser>>(users)!);
-            }
-            if (!db.UserFacultyAssignments.Any())
-            {
-                string userFacultyAssignments = System.IO.File.ReadAllText("seedData/userFacultyAssignments.json");
-                db.UserFacultyAssignments.AddRange(JsonSerializer.Deserialize<List<UserFacultyAssignment>>(userFacultyAssignments)!);
-            }
-            db.SaveChanges();
-        }
+        });
+ 
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-        }
+        await app.Services.InitializeDb();
+
+        if (!app.Environment.IsDevelopment())
+            app.UseHsts(); //enforces https
+
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseSwagger();
+        app.UseSwaggerUI(c=>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentPlanner API v1");
+        });
 
+        app.UseRouting(); //matches http to controller
 
-        app.MapControllers();
+        app.UseAuthentication(); //Reads Identity Cookie & identifies the current working user
+        app.UseAuthorization(); //Validates access permissions of the user
+
+        app.MapControllers(); //executes the controller
+
         app.UseStaticFiles();
         app.Run();
     }
