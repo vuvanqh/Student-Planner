@@ -24,7 +24,7 @@ namespace StudentPlanner.UI.Controllers;
 /// </remarks>
 [Authorize(Roles = "User")]
 [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "You don't have permission to perform this action")]
-[Route("api/events/[controller]")]
+[Route("api/events/personal-events")]
 [ApiController]
 public class PersonalEventsController : ControllerBase
 {

@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/academicevents": {
+    "/api/academic-events": {
       "get": {
         "tags": [
           "AcademicEvents"
@@ -89,7 +89,7 @@
         }
       }
     },
-    "/api/academicevents/{id}": {
+    "/api/academic-events/{id}": {
       "get": {
         "tags": [
           "AcademicEvents"
@@ -238,7 +238,7 @@
         }
       }
     },
-    "/api/academicevents/{eventId}/subscribe": {
+    "/api/academic-events/{eventId}/subscribe": {
       "put": {
         "tags": [
           "AcademicEvents"
@@ -281,7 +281,7 @@
         }
       }
     },
-    "/api/academicevents/{eventId}/unsubscribe": {
+    "/api/academic-events/{eventId}/unsubscribe": {
       "put": {
         "tags": [
           "AcademicEvents"
@@ -954,7 +954,7 @@
         }
       }
     },
-    "/api/events/personalevents": {
+    "/api/events/personal-events": {
       "get": {
         "tags": [
           "PersonalEvents"
@@ -1007,7 +1007,7 @@
         }
       }
     },
-    "/api/events/personalevents/{id}": {
+    "/api/events/personal-events/{id}": {
       "get": {
         "tags": [
           "PersonalEvents"
@@ -1192,7 +1192,7 @@
         }
       }
     },
-    "/api/events/personalevents/{userId}/{id}": {
+    "/api/events/personal-events/{userId}/{id}": {
       "delete": {
         "tags": [
           "PersonalEvents"
