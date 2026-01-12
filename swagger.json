@@ -5,6 +5,205 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/academicevents": {
+      "get": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AcademicEventResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcademicEvent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcademicEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcademicEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/academicevents/{id}": {
+      "get": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcademicEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcademicEvent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcademicEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/account/register": {
       "post": {
         "tags": [
@@ -75,12 +274,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginInputDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginInputDTO"
               }
             }
           }
@@ -91,7 +290,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "$ref": "#/components/schemas/LoginOutputDTO"
                 }
               }
             }
@@ -576,19 +775,13 @@
         "summary": "Retrieves a specific event request by its unique identifier.",
         "parameters": [
           {
-            "name": "id",
-            "in": "query",
+            "name": "eventId",
+            "in": "path",
+            "description": "The unique identifier of the event request.",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
-            }
-          },
-          {
-            "name": "eventId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -663,6 +856,9 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If faculty doesn't exist."
           }
         }
       }
@@ -951,15 +1147,6 @@
         "description": "The created event is automatically associated with the current user.\r\nClients do not provide user identifiers directly.",
         "parameters": [
           {
-            "name": "userId",
-            "in": "query",
-            "description": "The user identifier (derived from authentication context).",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -1110,10 +1297,16 @@
       },
       "AcademicEventResponse": {
         "required": [
+          "details",
+          "eventId",
           "faculty"
         ],
         "type": "object",
         "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "faculty": {
             "$ref": "#/components/schemas/FacultyDTO"
           },
@@ -1521,7 +1714,7 @@
         },
         "additionalProperties": false
       },
-      "LoginDTO": {
+      "LoginInputDTO": {
         "required": [
           "email",
           "password"
@@ -1536,6 +1729,44 @@
           "password": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginOutputDTO": {
+        "required": [
+          "email",
+          "firstName",
+          "surname"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "surname": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "personalEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PersonalEventResponse"
+            },
+            "nullable": true
+          },
+          "academicEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcademicEventResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1568,6 +1799,10 @@
       "PersonalEventResponse": {
         "type": "object",
         "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "details": {
             "$ref": "#/components/schemas/EventDetailsOutputDTO"
           }
@@ -1645,54 +1880,13 @@
           }
         },
         "additionalProperties": false
-      },
-      "UserResponse": {
-        "required": [
-          "email",
-          "firstName",
-          "surname"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "firstName": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "surname": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "faculties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FacultyDTO"
-            },
-            "nullable": true
-          },
-          "academicEvents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AcademicEventResponse"
-            },
-            "nullable": true
-          },
-          "personalEvents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PersonalEventResponse"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
       }
     }
   },
   "tags": [
+    {
+      "name": "AcademicEvents"
+    },
     {
       "name": "Account"
     },
