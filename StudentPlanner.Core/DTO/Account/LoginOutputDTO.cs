@@ -12,4 +12,5 @@ public class LoginOutputDTO
     [Required,EmailAddress] public string Email { get; set; } = null!;
     public List<PersonalEventResponse>? PersonalEvents { get; set; }
     public List<AcademicEventResponse>? AcademicEvents { get; set; }
+    public List<UsosEventResponse>? UsosEvents { get; set; }
 }

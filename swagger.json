@@ -10,9 +10,11 @@
         "tags": [
           "AcademicEvents"
         ],
+        "summary": "Retrieves all academic events.",
+        "description": "This endpoint returns the complete list of academic events available\r\nin the system.",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Returns the list of academic events.",
             "content": {
               "application/json": {
                 "schema": {
@@ -42,7 +44,9 @@
         "tags": [
           "AcademicEvents"
         ],
+        "summary": "Creates a new academic event.",
         "requestBody": {
+          "description": "The academic event to be created.",
           "content": {
             "application/json": {
               "schema": {
@@ -57,8 +61,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK",
+          "201": {
+            "description": "Returns the created academic event.",
             "content": {
               "application/json": {
                 "schema": {
@@ -66,6 +70,9 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Success"
           },
           "400": {
             "description": "Bad Request"
@@ -87,10 +94,12 @@
         "tags": [
           "AcademicEvents"
         ],
+        "summary": "Retrieves a specific academic event by its identifier.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "The unique identifier of the academic event.",
             "required": true,
             "schema": {
               "type": "string",
@@ -100,7 +109,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Returns the academic event.",
             "content": {
               "application/json": {
                 "schema": {
@@ -120,6 +129,9 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the academic event does not exist."
           }
         }
       },
@@ -127,10 +139,13 @@
         "tags": [
           "AcademicEvents"
         ],
+        "summary": "Updates an existing academic event.",
+        "description": "The identifier in the route must match the identifier of the academic\r\nevent provided in the request body.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "The unique identifier of the academic event.",
             "required": true,
             "schema": {
               "type": "string",
@@ -139,6 +154,7 @@
           }
         ],
         "requestBody": {
+          "description": "The updated academic event data.",
           "content": {
             "application/json": {
               "schema": {
@@ -154,10 +170,17 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "The academic event was updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcademicEventResponse"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "If the route identifier does not match the payload."
           },
           "401": {
             "description": "Unauthorized"
@@ -167,6 +190,9 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the academic event does not exist."
           }
         }
       },
@@ -174,10 +200,12 @@
         "tags": [
           "AcademicEvents"
         ],
+        "summary": "Deletes an existing academic event.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "The unique identifier of the academic event.",
             "required": true,
             "schema": {
               "type": "string",
@@ -186,8 +214,11 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "The academic event was deleted successfully."
+          },
           "200": {
-            "description": "OK"
+            "description": "Success"
           },
           "400": {
             "description": "Bad Request"
@@ -200,6 +231,9 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "404": {
+            "description": "If the academic event does not exist."
           }
         }
       }
@@ -479,205 +513,6 @@
           },
           "204": {
             "description": "Manager deleted successfully."
-          }
-        }
-      }
-    },
-    "/api/admindraft": {
-      "get": {
-        "tags": [
-          "AdminDraft"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApplicationUser"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "AdminDraft"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApplicationUser"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApplicationUser"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUser"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admindraft/{id}": {
-      "get": {
-        "tags": [
-          "AdminDraft"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationUser"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "AdminDraft"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApplicationUser"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApplicationUser"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "AdminDraft"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -1767,6 +1602,13 @@
               "$ref": "#/components/schemas/AcademicEventResponse"
             },
             "nullable": true
+          },
+          "usosEvents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsosEventResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1880,6 +1722,18 @@
           }
         },
         "additionalProperties": false
+      },
+      "UsosEventResponse": {
+        "required": [
+          "eventDetailsOutputDTO"
+        ],
+        "type": "object",
+        "properties": {
+          "eventDetailsOutputDTO": {
+            "$ref": "#/components/schemas/EventDetailsOutputDTO"
+          }
+        },
+        "additionalProperties": false
       }
     }
   },
@@ -1892,9 +1746,6 @@
     },
     {
       "name": "Admin"
-    },
-    {
-      "name": "AdminDraft"
     },
     {
       "name": "EventRequests"
