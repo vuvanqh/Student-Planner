@@ -23,6 +23,12 @@ public class EventRequestRepository: IEventRequestRepository
         return request;
     }
 
+    public async Task DeleteEventRequest(Guid? requestId)
+    {
+        _db.EventRequests.Remove(_db.EventRequests.FirstOrDefault(e => e.RequestId == requestId)!);
+        await _db.SaveChangesAsync();
+    }
+
     public async Task<List<EventRequest>> GetAllEventRequests()
     {
         return await _db.EventRequests.ToListAsync();

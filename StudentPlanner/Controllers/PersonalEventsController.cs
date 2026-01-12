@@ -138,7 +138,6 @@ public class PersonalEventsController : ControllerBase
     /// The created event is automatically associated with the current user.
     /// Clients do not provide user identifiers directly.
     /// </remarks>
-    /// <param name="userId">The user identifier (derived from authentication context).</param>
     /// <param name="personalEvent">The event creation payload.</param>
     /// <returns>The created personal event.</returns>
     /// <response code="201">Returns the newly created personal event.</response>
