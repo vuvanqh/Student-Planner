@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace StudentPlanner.Core.DTO;
-public class LoginDTO
+public class LoginInputDTO
 {
     [Required(ErrorMessage = "Email cannot be blank")]
     [EmailAddress(ErrorMessage = "Email should be in a proper email address format")]

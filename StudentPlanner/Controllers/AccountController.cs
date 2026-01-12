@@ -83,9 +83,9 @@ namespace StudentPlanner.UI.Controllers
         /// <response code="401">If the credentials are invalid.</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LoginOutputDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Invalid credentials")]
-        public async Task<IActionResult> LogIn(LoginDTO loginRequest)
+        public async Task<IActionResult> LogIn(LoginInputDTO loginRequest)
         {
             if(User.Identity!=null && User.Identity.IsAuthenticated)
                 return Ok(new { Message = "User is already signed in.", User = User.Identity.Name });

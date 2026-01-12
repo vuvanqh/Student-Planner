@@ -45,6 +45,11 @@ public class EventRequestService : IEventRequestService
         return req.ToEventRequestResponse();
     }
 
+    public async Task<List<EventRequestResponse>> GetEventRequestsByFaculty(string? facultyId)
+    {
+        return (await _eventRequestRepository.GetEventRequestByFaculty(facultyId)).Select(e => e.ToEventRequestResponse()).ToList();
+    }
+
     public async Task<List<EventRequestResponse>> GetEventRequestsByManagerId(string? userEmail)
     {
         if (userEmail == null) throw new ArgumentNullException("Manager id has to be provided");

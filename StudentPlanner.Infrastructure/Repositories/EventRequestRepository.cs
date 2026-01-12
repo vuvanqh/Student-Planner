@@ -28,6 +28,11 @@ public class EventRequestRepository: IEventRequestRepository
         return await _db.EventRequests.ToListAsync();
     }
 
+    public async Task<List<EventRequest>> GetEventRequestByFaculty(string? email)
+    {
+        return await _db.EventRequests.Where(e=>e.FacultyId == email).ToListAsync();
+    }
+
     public async Task<EventRequest?> GetEventRequestById(Guid? id)
     {
         return await _db.EventRequests.FirstOrDefaultAsync(e => e.RequestId == id);

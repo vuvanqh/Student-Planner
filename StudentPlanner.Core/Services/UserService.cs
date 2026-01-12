@@ -9,17 +9,16 @@ using StudentPlanner.Core.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
 public class UserService : IUserService
 {
     private List<ApplicationUser> _users = new List<ApplicationUser>();
-    private readonly IUserRepository _userRepository;
     private readonly UserManager<ApplicationUser> _userManager;
-    public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
+    public UserService(UserManager<ApplicationUser> userManager)
     {
-        _userRepository = userRepository; 
         _userManager = userManager;
     }
 
@@ -42,14 +41,14 @@ public class UserService : IUserService
 
     public async Task<List<UserResponse>> GetAllUsers()
     {
-        return (await _userRepository.GetAllUsers()).Select(u => u.ToUserResponse()).ToList();
+        return await _userManager.Users.Select(u => u.ToUserResponse()).ToListAsync();
     }
 
     public async Task<UserResponse?> GetUserByEmail(string? email)
     {
         if(email==null) throw new ArgumentNullException();
 
-        ApplicationUser? user = await _userRepository.GetUserByEmail(email);
+        ApplicationUser? user = await _userManager.FindByEmailAsync(email);
 
         return user==null ? null : user.ToUserResponse();
     }

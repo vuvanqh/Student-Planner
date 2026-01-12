@@ -8,4 +8,5 @@ public interface IEventRequestRepository
     public Task<List<EventRequest>> GetAllEventRequests();
     public Task<EventRequest?> GetEventRequestById(Guid? id);
     public Task<List<EventRequest>> GetEventRequestByUserEmail(string? email);
+    public Task<List<EventRequest>> GetEventRequestByFaculty(string? email);
 }

@@ -8,7 +8,8 @@ namespace StudentPlanner.Core.DTO;
 
 public class PersonalEventResponse
 {
-    public EventDetailsOutputDTO? Details { get; set; }
+    public Guid EventId { get; set; }
+    public EventDetailsOutputDTO Details { get; set; } = null!;
 }
 
 public static class PersonalEventExtentions
@@ -17,7 +18,8 @@ public static class PersonalEventExtentions
     {
         return new PersonalEventResponse()
         {
-            Details = EventDetailsOutputDTO.ToEventDetailsDTO(response.Details)
+            EventId = response.EventId,
+            Details = EventDetailsOutputDTO.ToEventDetailsDTO(response.Details)!
         };
     }
 }

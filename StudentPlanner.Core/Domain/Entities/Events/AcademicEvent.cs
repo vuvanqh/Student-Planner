@@ -11,11 +11,9 @@ namespace Entities.Events;
 //NOTE: required preferred with entities, [Required] recommended for DTO for validation
 public class AcademicEvent: Event
 {
-
     //relationships
     [StringLength(40)]
     public required string FacultyId { get; set; }
     public Faculty? Faculty { get; set; }
-
     //Subscribers => relationships with users i suppose
 }

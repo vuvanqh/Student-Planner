@@ -146,7 +146,7 @@ public class PersonalEventsController : ControllerBase
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("{id:guid}")]
     [ProducesResponseType(typeof(PersonalEventResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<PersonalEventResponse>> CreatePersonalEvent(Guid userId, CreatePersonalEventRequest personalEvent)
+    public async Task<ActionResult<PersonalEventResponse>> CreatePersonalEvent(CreatePersonalEventRequest personalEvent)
     {
         throw new NotImplementedException(); 
         //_context.PersonalEvents.Add(personalEvent);

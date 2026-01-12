@@ -5,6 +5,10 @@ using StudentPlanner.Core.Domain;
 
 namespace Repositories;
 
+
+/// <summary>
+/// OBSOLETE: Replaced with UserManager
+/// </summary>
 public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _db;

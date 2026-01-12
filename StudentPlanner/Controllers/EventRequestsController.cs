@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Enums;
+using ServiceContracts;
 
 namespace StudentPlanner.UI.Controllers;
 
@@ -29,10 +30,12 @@ namespace StudentPlanner.UI.Controllers;
 public class EventRequestsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly IEventRequestService _eventRequestService;
 
-    public EventRequestsController(ApplicationDbContext context)
+    public EventRequestsController(ApplicationDbContext context, IEventRequestService eventRequestService)
     {
         _context = context;
+        _eventRequestService = eventRequestService;
     }
 
     /// <summary>
@@ -51,8 +54,7 @@ public class EventRequestsController : ControllerBase
     [ProducesResponseType(typeof(List<EventRequestResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<EventRequestResponse>>> GetEventRequests()
     {
-        var resp = await _context.EventRequests.ToListAsync();
-        return resp.Select(e=>e.ToEventRequestResponse()).ToList();
+        return await _eventRequestService.GetAllEventRequests();
     }
 
     // GET: api/EventRequests/10
@@ -66,16 +68,14 @@ public class EventRequestsController : ControllerBase
     /// <response code="404">If the event request does not exist or is not accessible.</response>
     [HttpGet("{eventId:guid}")]
     [ProducesResponseType(typeof(EventRequestResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<EventRequestResponse>> GetManagerEventRequest(Guid id)
+    public async Task<ActionResult<EventRequestResponse>> GetEventRequest(Guid eventId)
     {
-        var eventRequest = await _context.EventRequests.FindAsync(id);
-
+        var eventRequest = await _eventRequestService.GetEventRequestById(eventId);
         if (eventRequest == null)
         {
             return NotFound();
         }
-
-        return eventRequest.ToEventRequestResponse();
+        return eventRequest;
     }
 
     /// <summary>
@@ -88,11 +88,15 @@ public class EventRequestsController : ControllerBase
     /// <param name="facultyId">The unique identifier of the faculty.</param>
     /// <returns>A list of event requests associated with the specified faculty.</returns>
     /// <response code="200">Returns the filtered list of event requests.</response>
+    /// <response code="404">If faculty doesn't exist.</response>
     // GET: api/EventRequests/10
+    [Authorize(Roles ="Admin")]
     [HttpGet("faculty")]
     [ProducesResponseType(typeof(List<EventRequestResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetManagerEventRequestByFaculty([FromQuery]string facultyId)
-    { return Ok(); }
+    public async Task<IActionResult> GetEventRequestsByFaculty([FromQuery]string facultyId)
+    { 
+        return Ok(await _eventRequestService.GetEventRequestsByFaculty(facultyId));
+    }
 
 
     /// <summary>
@@ -159,10 +163,8 @@ public class EventRequestsController : ControllerBase
     [ProducesResponseType(typeof(EventRequestResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<EventRequestResponse>> PostEventRequest(CreateEventRequest eventRequest)
     {
-        _context.EventRequests.Add(eventRequest.ToEventRequest());
-        await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetEventRequest", new { id = eventRequest.Details!.EventId }, eventRequest);
+        return await _eventRequestService.CreateEventRequest(eventRequest); ;
     }
 
     /// <summary>
@@ -177,7 +179,7 @@ public class EventRequestsController : ControllerBase
     /// <response code="404">If the event request does not exist.</response>
     // DELETE: api/EventRequests/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager")] ///TO-DO
     public async Task<IActionResult> DeleteEventRequest(Guid id)
     {
         var eventRequest = await _context.EventRequests.FindAsync(id);

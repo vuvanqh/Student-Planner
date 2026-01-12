@@ -6,6 +6,10 @@ using System.Text;
 
 namespace RepositoryContracts;
 
+
+/// <summary>
+/// OBSOLETE: Replaced with UserManager
+/// </summary>
 public interface IUserRepository
 {
     public Task<ApplicationUser> AddUser(ApplicationUser user);
