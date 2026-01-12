@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Entities;
+using Entities.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Entities;
-using Entities.Events;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using StudentPlanner.Core.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudentPlanner.UI.Controllers;
 
@@ -137,6 +139,34 @@ public class AcademicEventsController : ControllerBase
         _context.AcademicEvents.Remove(academicEvent);
         await _context.SaveChangesAsync();
 
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Subscribes the authenticated user to an academic event.
+    /// </summary>
+    /// <param name="eventId">Identifier of the academic event.</param>
+    /// <response code="204">Subscription created.</response>
+    /// <response code="403">If the user is not authorized.</response>
+    /// <response code="404">If the event does not exist.</response>
+    [Authorize(Roles = "User")]
+    [HttpPut("{eventId}/subscribe")]
+    public async Task<IActionResult> SubscribeToEvent(Guid eventId)
+    {
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Unsubscribes the authenticated user from an academic event.
+    /// </summary>
+    /// <param name="eventId">Identifier of the academic event.</param>
+    /// <response code="204">Subscription removed.</response>
+    /// <response code="403">If the user is not authorized.</response>
+    /// <response code="404">If the event or subscription does not exist.</response>
+    [Authorize(Roles = "User")]
+    [HttpPut("{eventId}/unsubscribe")]
+    public async Task<IActionResult> UnubscribeToEvent(Guid eventId)
+    {
         return NoContent();
     }
 

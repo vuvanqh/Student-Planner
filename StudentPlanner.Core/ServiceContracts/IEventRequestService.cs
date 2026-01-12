@@ -37,4 +37,6 @@ public interface IEventRequestService
     Task<List<EventRequestResponse>> GetEventRequestsByManagerId(string? userEmail);
 
     Task<List<EventRequestResponse>> GetEventRequestsByFaculty(string? facultyId);
+
+    Task UpdateEventRequestStatus(UpdateEventRequest updateEventRequest);
 }

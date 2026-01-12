@@ -238,6 +238,92 @@
         }
       }
     },
+    "/api/academicevents/{eventId}/subscribe": {
+      "put": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "summary": "Subscribes the authenticated user to an academic event.",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "Identifier of the academic event.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "If the user is not authorized."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Subscription created."
+          },
+          "404": {
+            "description": "If the event does not exist."
+          }
+        }
+      }
+    },
+    "/api/academicevents/{eventId}/unsubscribe": {
+      "put": {
+        "tags": [
+          "AcademicEvents"
+        ],
+        "summary": "Unsubscribes the authenticated user from an academic event.",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "Identifier of the academic event.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "If the user is not authorized."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "Subscription removed."
+          },
+          "404": {
+            "description": "If the event or subscription does not exist."
+          }
+        }
+      }
+    },
     "/api/account/register": {
       "post": {
         "tags": [
@@ -513,6 +599,71 @@
           },
           "204": {
             "description": "Manager deleted successfully."
+          }
+        }
+      }
+    },
+    "/api/admin": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Updates the status of an event request.",
+        "description": "This endpoint allows an administrator to review an existing event request\r\nand update its status. It is used to approve or reject requests submitted\r\nby managers for the creation, modification, or deletion of academic events.",
+        "requestBody": {
+          "description": "The request containing the identifier of the event request and the new status\r\nto be applied. The status must be set to either `Approved` or `Rejected`.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The event request status was updated successfully."
+          },
+          "400": {
+            "description": "If the provided request data is invalid or the status value is not supported.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "If the authenticated user does not have administrative privileges.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the specified event request does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

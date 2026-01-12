@@ -59,4 +59,9 @@ public class EventRequestService : IEventRequestService
                                                        .ToList();
         return req;
     }
+
+    public Task UpdateEventRequestStatus(UpdateEventRequest updateEventRequest)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -9,6 +9,7 @@ using StudentPlanner.Core.DTO;
 using StudentPlanner.Core.Domain;
 using StudentPlanner.Core.Errors;
 using System.Collections.Generic;
+using ServiceContracts;
 
 namespace StudentPlanner.UI.Controllers;
 
@@ -27,9 +28,11 @@ namespace StudentPlanner.UI.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    public AdminController(UserManager<ApplicationUser> userManager)
+    private readonly IEventRequestService _eventRequestService;
+    public AdminController(UserManager<ApplicationUser> userManager, IEventRequestService eventRequestService)
     {
         _userManager = userManager;
+        _eventRequestService = eventRequestService;
     }
 
     /// <summary>
@@ -112,5 +115,34 @@ public class AdminController : ControllerBase
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Updates the status of an event request.
+    /// </summary>
+    /// <remarks>
+    /// This endpoint allows an administrator to review an existing event request
+    /// and update its status. It is used to approve or reject requests submitted
+    /// by managers for the creation, modification, or deletion of academic events.
+    /// </remarks>
+    /// <param name="updateEvent">
+    /// The request containing the identifier of the event request and the new status
+    /// to be applied. The status must be set to either <c>Approved</c> or <c>Rejected</c>.
+    /// </param>
+    /// <returns>No content if the request status is updated successfully.</returns>
+    /// <response code="200">The event request status was updated successfully.</response>
+    /// <response code="400">If the provided request data is invalid or the status value is not supported.</response>
+    /// <response code="403">If the authenticated user does not have administrative privileges. </response>
+    /// <response code="404">If the specified event request does not exist.</response>
+    [Authorize(Roles = "Admin")]
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpPut]
+    public async Task<IActionResult> UpdateEvent(UpdateEventRequest updateEvent)
+    {
+        await _eventRequestService.UpdateEventRequestStatus(updateEvent);
+        return Ok();
+    }
 
 }
