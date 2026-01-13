@@ -143,7 +143,7 @@ public class PersonalEventsController : ControllerBase
     /// <response code="201">Returns the newly created personal event.</response>
     // POST: api/PersonalEvents
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost("{id:guid}")]
+    [HttpPost]
     [ProducesResponseType(typeof(PersonalEventResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<PersonalEventResponse>> CreatePersonalEvent(CreatePersonalEventRequest personalEvent)
     {
@@ -166,7 +166,7 @@ public class PersonalEventsController : ControllerBase
     /// <response code="403">If the event does not belong to the authenticated user.</response>
     /// <response code="404">If the event does not exist.</response>
     // DELETE: api/PersonalEvents/5
-    [HttpDelete("{userId}/{id}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "You don't have permission to perform this action. This event does not belong to you")]
     public async Task<IActionResult> DeletePersonalEvent(Guid id)
     {

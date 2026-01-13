@@ -972,6 +972,62 @@
             "description": "Unauthorized"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "PersonalEvents"
+        ],
+        "summary": "Creates a new personal event for the authenticated user.",
+        "description": "The created event is automatically associated with the current user.\r\nClients do not provide user identifiers directly.",
+        "requestBody": {
+          "description": "The event creation payload.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalEventRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePersonalEventRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "You don't have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "201": {
+            "description": "Returns the newly created personal event."
+          }
+        }
       }
     },
     "/api/events/personal-events/{id}": {
@@ -1092,74 +1148,6 @@
           }
         }
       },
-      "post": {
-        "tags": [
-          "PersonalEvents"
-        ],
-        "summary": "Creates a new personal event for the authenticated user.",
-        "description": "The created event is automatically associated with the current user.\r\nClients do not provide user identifiers directly.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The event creation payload.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePersonalEventRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePersonalEventRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "403": {
-            "description": "You don't have permission to perform this action",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PersonalEventResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "201": {
-            "description": "Returns the newly created personal event."
-          }
-        }
-      }
-    },
-    "/api/events/personal-events/{userId}/{id}": {
       "delete": {
         "tags": [
           "PersonalEvents"
@@ -1175,14 +1163,6 @@
             "schema": {
               "type": "string",
               "format": "uuid"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           }
         ],
