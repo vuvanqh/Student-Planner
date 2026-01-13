@@ -61,11 +61,11 @@ public static class ConfigureServicesExtention
 
         services.AddAuthorization(options =>
         {
-            //options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); // enforce authorization policy for all action methods
-            options.AddPolicy("CanCreateEventRequest", policy =>
-            {
-                policy.RequireRole("Manager");
-            });
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); // enforce authorization policy for all action methods
+            //options.AddPolicy("CanCreateEventRequest", policy =>
+            //{
+            //    policy.RequireRole("Manager");
+            //});
         });
 
         services.AddEndpointsApiExplorer();

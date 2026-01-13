@@ -49,7 +49,7 @@ namespace StudentPlanner.UI.Controllers
         /// </remarks>
         /// <param name="userRequest">The user registration details.</param>
         /// <returns>No content if registration succeeds.</returns>
-        /// <response code="200">User registered successfully.</response>
+        /// <response code="204">User registered successfully.</response>
         /// <response code="400">If the provided password does not meet validation rules.</response>
         /// <response code="409">If an account with the given email already exists.</response>
         [AllowAnonymous]
@@ -66,26 +66,28 @@ namespace StudentPlanner.UI.Controllers
             };
 
             UserResponse resp = await _userService.CreateUser(userRequest);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Authenticates a user using email and password.
         /// </summary>
         /// <remarks>
-        /// If authentication succeeds, the user is signed in and a session is established.
-        /// If the user is already authenticated, a message indicating the current session
-        /// is returned instead.
+        /// If authentication succeeds, a JSON Web Token (JWT) is issued and returned
+        /// to the client. The token must be included in subsequent requests to
+        /// authenticate the user.
         /// </remarks>
         /// <param name="loginRequest">The login credentials.</param>
-        /// <returns>The authenticated user's information.</returns>
-        /// <response code="200">Login successful.</response>
-        /// <response code="401">If the credentials are invalid.</response>
+        /// <returns>
+        /// A response containing the authentication token and basic user information.
+        /// </returns>
+        /// <response code="200">Authentication successful.</response>
+        /// <response code="401">If the provided credentials are invalid.</response>
         [AllowAnonymous]
         [HttpPost("login")]
-        [ProducesResponseType(typeof(LoginOutputDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Invalid credentials")]
-        public async Task<IActionResult> LogIn(LoginInputDTO loginRequest)
+        public async Task<IActionResult> LogIn(LoginRequest loginRequest)
         {
             if(User.Identity!=null && User.Identity.IsAuthenticated)
                 return Ok(new { Message = "User is already signed in.", User = User.Identity.Name });
@@ -102,12 +104,13 @@ namespace StudentPlanner.UI.Controllers
         /// This endpoint terminates the current authentication session.
         /// </remarks>
         /// <returns>No content if logout succeeds.</returns>
-        /// <response code="200">Logout successful.</response>
+        /// <response code="204">Logout successful.</response>
+        /// <response code="401">If the request is not authenticated.</response>
         [HttpPost("logout")]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -119,7 +122,7 @@ namespace StudentPlanner.UI.Controllers
         /// </remarks>
         /// <param name="userEmail">The email address of the account to delete.</param>
         /// <returns>No content if the account is deleted successfully.</returns>
-        /// <response code="200">Account deleted successfully.</response>
+        /// <response code="204">Account deleted successfully.</response>
         /// <response code="403">If the user does not have permission to perform this action.</response>
         [HttpDelete("delete-account")]
         [Authorize(Roles="User")]
@@ -127,7 +130,7 @@ namespace StudentPlanner.UI.Controllers
         public async Task<IActionResult> DeleteAccount(string userEmail)
         {
             await _signInManager.SignOutAsync();
-            return Ok();
+            return NoContent();
         }
     }
 }
