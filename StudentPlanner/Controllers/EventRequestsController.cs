@@ -66,11 +66,11 @@ public class EventRequestsController : ControllerBase
     /// <returns>The requested event request.</returns>
     /// <response code="200">Returns the requested event request.</response>
     /// <response code="404">If the event request does not exist or is not accessible.</response>
-    [HttpGet("{eventId:guid}")]
+    [HttpGet("{eventRequestId:guid}")]
     [ProducesResponseType(typeof(EventRequestResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<EventRequestResponse>> GetEventRequest(Guid eventId)
+    public async Task<ActionResult<EventRequestResponse>> GetEventRequest(Guid eventRequestId)
     {
-        var eventRequest = await _eventRequestService.GetEventRequestById(eventId);
+        var eventRequest = await _eventRequestService.GetEventRequestById(eventRequestId);
         if (eventRequest == null)
         {
             return NotFound();
@@ -106,7 +106,7 @@ public class EventRequestsController : ControllerBase
     /// Only administrators are allowed to update event request statuses.
     /// Typical status transitions include approval or rejection.
     /// </remarks>
-    /// <param name="id">The unique identifier of the event request.</param>
+    /// <param name="eventRequestId">The unique identifier of the event request.</param>
     /// <param name="eventRequest">The updated event request data.</param>
     /// <returns>The updated status of the event request.</returns>
     /// <response code="200">Returns the updated request status.</response>
@@ -114,12 +114,12 @@ public class EventRequestsController : ControllerBase
     /// <response code="404">If the event request does not exist.</response>
     // PUT: api/EventRequests/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
+    [HttpPut("{eventRequestId: Guid}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(RequestStatus), StatusCodes.Status200OK)]
-    public async Task<IActionResult> PutEventRequest(Guid id, UpdateEventRequest eventRequest)
+    public async Task<IActionResult> PutEventRequest(Guid eventRequestId, UpdateEventRequest eventRequest)
     {
-        if (id != eventRequest.RequestId)
+        if (eventRequestId != eventRequest.RequestId)
         {
             return BadRequest();
         }
@@ -132,7 +132,7 @@ public class EventRequestsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!EventRequestExists(id))
+            if (!EventRequestExists(eventRequestId))
             {
                 return NotFound();
             }
@@ -173,16 +173,16 @@ public class EventRequestsController : ControllerBase
     /// <remarks>
     /// Managers may only delete event requests they created.
     /// </remarks>
-    /// <param name="id">The unique identifier of the event request.</param>
+    /// <param name="eventRequestId">The unique identifier of the event request.</param>
     /// <returns>No content if deletion is successful.</returns>
     /// <response code="204">Event request deleted successfully.</response>
     /// <response code="404">If the event request does not exist.</response>
     // DELETE: api/EventRequests/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{eventRequestId}")]
     [Authorize(Roles = "Manager")] ///TO-DO
-    public async Task<IActionResult> DeleteEventRequest(Guid id)
+    public async Task<IActionResult> DeleteEventRequest(Guid eventRequestId)
     {
-        var eventRequest = await _context.EventRequests.FindAsync(id);
+        var eventRequest = await _context.EventRequests.FindAsync(eventRequestId);
         if (eventRequest == null)
         {
             return NotFound();

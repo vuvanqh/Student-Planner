@@ -70,9 +70,9 @@ public class PersonalEventsController : ControllerBase
     /// <returns>A list of personal events.</returns>
     /// <response code="200">Returns the list of personal events.</response>
     // GET: api/PersonalEvents/5
-    [HttpGet("{id:guid}")]
+    [HttpGet("{personalEventId:guid}")]
     [ProducesResponseType(typeof(PersonalEventResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<PersonalEventResponse>> GetPersonalEvent(Guid id)
+    public async Task<ActionResult<PersonalEventResponse>> GetPersonalEvent(Guid personalEventId)
     {
         //var personalEvent = await _context.PersonalEvents.Where(e => e.UserId == userId).FirstOrDefaultAsync(e => e.EventId == id);
         PersonalEventResponse? personalEvent = null;
@@ -91,7 +91,7 @@ public class PersonalEventsController : ControllerBase
     /// The authenticated user may only update events they own.
     /// Attempts to update events owned by other users will result in a forbidden response.
     /// </remarks>
-    /// <param name="id">The unique identifier of the event.</param>
+    /// <param name="personalEventId">The unique identifier of the event.</param>
     /// <param name="personalEvent">The updated event data.</param>
     /// <returns>The updated personal event.</returns>
     /// <response code="200">Returns the updated event.</response>
@@ -100,12 +100,12 @@ public class PersonalEventsController : ControllerBase
     /// <response code="404">If the event does not exist.</response>
     // PUT: api/PersonalEvents/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id:guid}")]
+    [HttpPut("{personalEventId:guid}")]
     [ProducesResponseType(typeof(PersonalEventResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "You don't have permission to perform this action. This event does not belong to you")]
-    public async Task<ActionResult<PersonalEventResponse>> PutPersonalEvent(Guid id, PersonalEventUpdateDTO personalEvent)
+    public async Task<ActionResult<PersonalEventResponse>> PutPersonalEvent(Guid personalEventId, PersonalEventUpdateDTO personalEvent)
     {
-        if (id != personalEvent.Details!.EventId)
+        if (personalEventId != personalEvent.Details!.EventId)
         {
             return BadRequest();
         }
@@ -118,7 +118,7 @@ public class PersonalEventsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!PersonalEventExists(id))
+            if (!PersonalEventExists(personalEventId))
             {
                 return NotFound();
             }
@@ -160,17 +160,17 @@ public class PersonalEventsController : ControllerBase
     /// <remarks>
     /// The authenticated user may only delete events they own.
     /// </remarks>
-    /// <param name="id">The unique identifier of the event.</param>
+    /// <param name="personalEventId">The unique identifier of the event.</param>
     /// <returns>No content if deletion is successful.</returns>
     /// <response code="204">Event deleted successfully.</response>
     /// <response code="403">If the event does not belong to the authenticated user.</response>
     /// <response code="404">If the event does not exist.</response>
     // DELETE: api/PersonalEvents/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{personalEventId}")]
     [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "You don't have permission to perform this action. This event does not belong to you")]
-    public async Task<IActionResult> DeletePersonalEvent(Guid id)
+    public async Task<IActionResult> DeletePersonalEvent(Guid personalEventId)
     {
-        var personalEvent = await _context.PersonalEvents.FindAsync(id);
+        var personalEvent = await _context.PersonalEvents.FindAsync(personalEventId);
         if (personalEvent == null)
         {
             return NotFound();

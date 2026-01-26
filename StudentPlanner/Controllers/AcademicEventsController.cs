@@ -43,15 +43,15 @@ public class AcademicEventsController : ControllerBase
     /// <summary>
     /// Retrieves a specific academic event by its identifier.
     /// </summary>
-    /// <param name="id">The unique identifier of the academic event.</param>
+    /// <param name="academicEventId">The unique identifier of the academic event.</param>
     /// <returns>The requested academic event.</returns>
     /// <response code="200">Returns the academic event.</response>
     /// <response code="404">If the academic event does not exist.</response>
-    [HttpGet("{id:guid}")]
+    [HttpGet("{academicEventId:guid}")]
     [ProducesResponseType(typeof(AcademicEventResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AcademicEventResponse>> GetAcademicEvent(Guid id)
+    public async Task<ActionResult<AcademicEventResponse>> GetAcademicEvent(Guid academicEventId)
     {
-        var academicEvent = await _context.AcademicEvents.FindAsync(id);
+        var academicEvent = await _context.AcademicEvents.FindAsync(academicEventId);
 
         if (academicEvent == null)
         {
@@ -68,17 +68,17 @@ public class AcademicEventsController : ControllerBase
     /// The identifier in the route must match the identifier of the academic
     /// event provided in the request body.
     /// </remarks>
-    /// <param name="id">The unique identifier of the academic event.</param>
+    /// <param name="academicEventId">The unique identifier of the academic event.</param>
     /// <param name="academicEvent">The updated academic event data.</param>
     /// <returns>The updated event.</returns>
     /// <response code="200">The academic event was updated successfully.</response>
     /// <response code="400">If the route identifier does not match the payload.</response>
     /// <response code="404">If the academic event does not exist.</response>
-    [HttpPut("{id}")]
+    [HttpPut("{academicEventId}")]
     [ProducesResponseType(typeof(AcademicEventResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> PutAcademicEvent(Guid id, AcademicEvent academicEvent)
+    public async Task<IActionResult> PutAcademicEvent(Guid academicEventId, AcademicEvent academicEvent)
     {
-        if (id != academicEvent.EventId)
+        if (academicEventId != academicEvent.EventId)
         {
             return BadRequest();
         }
@@ -91,7 +91,7 @@ public class AcademicEventsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!AcademicEventExists(id))
+            if (!AcademicEventExists(academicEventId))
             {
                 return NotFound();
             }
@@ -122,15 +122,15 @@ public class AcademicEventsController : ControllerBase
     /// <summary>
     /// Deletes an existing academic event.
     /// </summary>
-    /// <param name="id">The unique identifier of the academic event.</param>
+    /// <param name="academicEventId">The unique identifier of the academic event.</param>
     /// <returns>No content if deletion is successful.</returns>
     /// <response code="204">The academic event was deleted successfully.</response>
     /// <response code="404">If the academic event does not exist.</response>
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{academicEventId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> DeleteAcademicEvent(Guid id)
+    public async Task<IActionResult> DeleteAcademicEvent(Guid academicEventId)
     {
-        var academicEvent = await _context.AcademicEvents.FindAsync(id);
+        var academicEvent = await _context.AcademicEvents.FindAsync(academicEventId);
         if (academicEvent == null)
         {
             return NotFound();
@@ -145,13 +145,13 @@ public class AcademicEventsController : ControllerBase
     /// <summary>
     /// Subscribes the authenticated user to an academic event.
     /// </summary>
-    /// <param name="eventId">Identifier of the academic event.</param>
+    /// <param name="academicEventId">Identifier of the academic event.</param>
     /// <response code="204">Subscription created.</response>
     /// <response code="403">If the user is not authorized.</response>
     /// <response code="404">If the event does not exist.</response>
     [Authorize(Roles = "User")]
-    [HttpPut("{eventId}/subscribe")]
-    public async Task<IActionResult> SubscribeToEvent(Guid eventId)
+    [HttpPut("{academicEventId}/subscribe")]
+    public async Task<IActionResult> SubscribeToEvent(Guid academicEventId)
     {
         return NoContent();
     }
@@ -159,13 +159,13 @@ public class AcademicEventsController : ControllerBase
     /// <summary>
     /// Unsubscribes the authenticated user from an academic event.
     /// </summary>
-    /// <param name="eventId">Identifier of the academic event.</param>
+    /// <param name="academicEventId">Identifier of the academic event.</param>
     /// <response code="204">Subscription removed.</response>
     /// <response code="403">If the user is not authorized.</response>
     /// <response code="404">If the event or subscription does not exist.</response>
     [Authorize(Roles = "User")]
-    [HttpPut("{eventId}/unsubscribe")]
-    public async Task<IActionResult> UnubscribeToEvent(Guid eventId)
+    [HttpPut("{academicEventId}/unsubscribe")]
+    public async Task<IActionResult> UnubscribeToEvent(Guid academicEventId)
     {
         return NoContent();
     }
