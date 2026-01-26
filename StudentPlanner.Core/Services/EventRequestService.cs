@@ -62,6 +62,7 @@ public class EventRequestService : IEventRequestService
 
     public Task UpdateEventRequestStatus(UpdateEventRequest updateEventRequest)
     {
-        throw new NotImplementedException();
+        if (updateEventRequest.RequestStatus == "Accepted") return Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }

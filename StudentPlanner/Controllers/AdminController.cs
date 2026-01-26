@@ -23,7 +23,7 @@ namespace StudentPlanner.UI.Controllers;
 /// - These endpoints allow administrators to manage manager accounts.
 /// </remarks>
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [Authorize(Roles = "Admin")]
 public class AdminController : ControllerBase
 {

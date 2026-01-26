@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/academic-events": {
+    "/academic-events": {
       "get": {
         "tags": [
           "AcademicEvents"
@@ -77,7 +77,7 @@
         }
       }
     },
-    "/api/academic-events/{id}": {
+    "/academic-events/{id}": {
       "get": {
         "tags": [
           "AcademicEvents"
@@ -208,7 +208,7 @@
         }
       }
     },
-    "/api/academic-events/{eventId}/subscribe": {
+    "/academic-events/{eventId}/subscribe": {
       "put": {
         "tags": [
           "AcademicEvents"
@@ -251,7 +251,7 @@
         }
       }
     },
-    "/api/academic-events/{eventId}/unsubscribe": {
+    "/academic-events/{eventId}/unsubscribe": {
       "put": {
         "tags": [
           "AcademicEvents"
@@ -294,7 +294,7 @@
         }
       }
     },
-    "/api/account/register": {
+    "/account/register": {
       "post": {
         "tags": [
           "Account"
@@ -349,7 +349,7 @@
         }
       }
     },
-    "/api/account/login": {
+    "/account/login": {
       "post": {
         "tags": [
           "Account"
@@ -401,7 +401,7 @@
         }
       }
     },
-    "/api/account/logout": {
+    "/account/logout": {
       "post": {
         "tags": [
           "Account"
@@ -427,7 +427,7 @@
         }
       }
     },
-    "/api/account/delete-account": {
+    "/account/delete-account": {
       "delete": {
         "tags": [
           "Account"
@@ -473,7 +473,7 @@
         }
       }
     },
-    "/api/admin/create-manager": {
+    "/admin/create-manager": {
       "post": {
         "tags": [
           "Admin"
@@ -521,7 +521,7 @@
         }
       }
     },
-    "/api/admin/delete-manager": {
+    "/admin/delete-manager": {
       "delete": {
         "tags": [
           "Admin"
@@ -570,7 +570,7 @@
         }
       }
     },
-    "/api/admin": {
+    "/admin": {
       "put": {
         "tags": [
           "Admin"
@@ -635,7 +635,7 @@
         }
       }
     },
-    "/api/event-requests": {
+    "/event-requests": {
       "get": {
         "tags": [
           "EventRequests"
@@ -720,7 +720,7 @@
         }
       }
     },
-    "/api/event-requests/{eventId}": {
+    "/event-requests/{eventId}": {
       "get": {
         "tags": [
           "EventRequests"
@@ -767,7 +767,7 @@
         }
       }
     },
-    "/api/event-requests/faculty": {
+    "/event-requests/faculty": {
       "get": {
         "tags": [
           "EventRequests"
@@ -816,7 +816,7 @@
         }
       }
     },
-    "/api/event-requests/{id}": {
+    "/event-requests/{id}": {
       "put": {
         "tags": [
           "EventRequests"
@@ -921,7 +921,7 @@
         }
       }
     },
-    "/api/events/personal-events": {
+    "/events/personal-events": {
       "get": {
         "tags": [
           "PersonalEvents"
@@ -1030,7 +1030,7 @@
         }
       }
     },
-    "/api/events/personal-events/{id}": {
+    "/events/personal-events/{id}": {
       "get": {
         "tags": [
           "PersonalEvents"

@@ -26,7 +26,7 @@ using ServiceContracts;
 /// </remarks>
 namespace StudentPlanner.UI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {

@@ -25,7 +25,7 @@ namespace StudentPlanner.UI.Controllers;
 /// - Administrators can view all event requests and update their status.
 /// </remarks>
 [Authorize(Roles = "Manager, Admin")]
-[Route("api/event-requests")]
+[Route("event-requests")]
 [ApiController]
 public class EventRequestsController : ControllerBase
 {

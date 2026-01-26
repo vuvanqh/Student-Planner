@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace StudentPlanner.UI.Controllers;
 
-[Route("api/academic-events")]
+[Route("academic-events")]
 [ApiController]
 public class AcademicEventsController : ControllerBase
 {
